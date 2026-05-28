@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Birthday ❤️</title>
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:black;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+}
+
+/* START SCREEN */
+
+#startScreen{
+
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:black;
+}
+
+#startBtn{
+
+    padding:18px 45px;
+
+    font-size:22px;
+
+    border:none;
+    border-radius:12px;
+
+    background:white;
+    color:black;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+#startBtn:hover{
+
+    transform:scale(1.08);
+}
+
+/* INTRO VIDEO */
+
+#introVideo{
+
+    width:100vw;
+    height:100vh;
+
+    object-fit:contain;
+
+    display:none;
+
+    background:black;
+}
+
+/* GALLERY */
+
+#gallery{
+
+    display:none;
+
+    width:100vw;
+    height:100vh;
+
+    position:relative;
+
+    background:black;
+
+    overflow:hidden;
+}
+
+/* HEART ITEMS */
+
+.heart{
+
+    position:absolute;
+
+    width:120px;
+    height:120px;
+
+    object-fit:cover;
+
+    border:4px solid white;
+
+    border-radius:18px;
+
+    box-shadow:0 0 15px rgba(255,255,255,0.4);
+
+    opacity:0;
+
+    animation:fadeIn 1s forwards;
+
+    transition:0.4s;
+
+    cursor:pointer;
+}
+
+/* HOVER */
+
+.heart:hover{
+
+    transform:scale(1.1);
+
+    z-index:999;
+
+    box-shadow:0 0 30px white;
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:scale(0.6);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* HEART OUTLINE */
+
+.item1{ top:70px; left:350px; }
+.item2{ top:130px; left:250px; }
+.item3{ top:250px; left:180px; }
+.item4{ top:390px; left:240px; }
+.item5{ top:530px; left:350px; }
+
+.item6{ top:650px; left:520px; }
+
+.item7{ top:530px; left:690px; }
+.item8{ top:390px; left:800px; }
+.item9{ top:250px; left:860px; }
+.item10{ top:130px; left:790px; }
+.item11{ top: 70px;px; left:680px; }
+
+.item12{ top:20px; left:520px; }
+
+/* SCATTERED VIDEOS */
+
+.video1{
+    top:80px;
+    left:40px;
+    transform:rotate(-10deg);
+}
+
+.video2{
+    top:600px;
+    left:40px;
+    transform:rotate(8deg);
+}
+
+.video3{
+    top:100px;
+    right:40px;
+    transform:rotate(-8deg);
+}
+
+.video4{
+    top:620px;
+    right:50px;
+    transform:rotate(10deg);
+}
+
+.video5{
+    top:760px;
+    left:100px;
+    transform:rotate(-6deg);
+}
+
+.video6{
+    top:760px;
+    right:100px;
+    transform:rotate(7deg);
+}
+
+/* FULLSCREEN */
+
+#viewer{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,0.96);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+#viewer img,
+#viewer video{
+
+    max-width:90%;
+    max-height:90%;
+
+    border:5px solid white;
+
+    border-radius:20px;
+}
+
+#closeBtn{
+
+    position:absolute;
+
+    top:20px;
+    right:25px;
+
+    font-size:40px;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .heart{
+
+        width:75px;
+        height:75px;
+    }
+
+    .item1{ top:70px; left:120px; }
+    .item2{ top:120px; left:60px; }
+    .item3{ top:210px; left:20px; }
+    .item4{ top:320px; left:70px; }
+    .item5{ top:430px; left:130px; }
+
+    .item6{ top:530px; left:180px; }
+
+    .item7{ top:430px; left:250px; }
+    .item8{ top:320px; left:320px; }
+    .item9{ top:210px; left:360px; }
+    .item10{ top:120px; left:310px; }
+    .item11{ top:70px; left:240px; }
+
+    .item12{ top:120px; left:180px; }
+
+    .video1{ top:40px; left:10px; }
+    .video2{ top:600px; left:10px; }
+    .video3{ top:40px; right:10px; }
+    .video4{ top:600px; right:10px; }
+    .video5{ top:700px; left:30px; }
+    .video6{ top:700px; right:30px; }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- START SCREEN -->
+
+<div id="startScreen">
+
+<button id="startBtn">
+Start ❤️
+</button>
+
+</div>
+
+<!-- INTRO VIDEO -->
+
+<video
+id="introVideo"
+muted
+playsinline
+>
+
+<source src="intro.mp4" type="video/mp4">
+
+</video>
+
+<!-- MUSIC -->
+
+<audio id="bgMusic" loop>
+
+<source src="music.mp3" type="audio/mp3">
+
+</audio>
+
+<!-- GALLERY -->
+
+<div id="gallery">
+
+<!-- HEART SHAPE PICTURES -->
+
+<img src="pic1.jpg" class="heart item1">
+<img src="pic2.jpg" class="heart item2">
+<img src="pic3.jpg" class="heart item3">
+<img src="pic4.jpg" class="heart item4">
+<img src="pic5.jpg" class="heart item5">
+<img src="pic6.jpg" class="heart item6">
+<img src="pic7.jpg" class="heart item7">
+<img src="pic8.jpg" class="heart item8">
+<img src="pic9.jpg" class="heart item9">
+<img src="pic10.jpg" class="heart item10">
+<img src="pic11.jpg" class="heart item11">
+<img src="pic12.jpg" class="heart item12">
+
+<!-- SCATTERED VIDEOS -->
+
+<video class="heart video1" autoplay muted loop preload="auto">
+<source src="vid1.mp4" type="video/mp4">
+</video>
+
+<video class="heart video2" autoplay muted loop preload="auto">
+<source src="vid2.mp4" type="video/mp4">
+</video>
+
+<video class="heart video3" autoplay muted loop preload="auto">
+<source src="vid3.mp4" type="video/mp4">
+</video>
+
+<video class="heart video4" autoplay muted loop preload="auto">
+<source src="vid4.mp4" type="video/mp4">
+</video>
+
+<video class="heart video5" autoplay muted loop preload="auto">
+<source src="vid5.mp4" type="video/mp4">
+</video>
+
+<video class="heart video6" autoplay muted loop preload="auto">
+<source src="vid6.mp4" type="video/mp4">
+</video>
+
+</div>
+
+<!-- FULLSCREEN VIEWER -->
+
+<div id="viewer"></div>
+
+<script>
+
+/* ELEMENTS */
+
+const startBtn = document.getElementById("startBtn");
+
+const startScreen = document.getElementById("startScreen");
+
+const introVideo = document.getElementById("introVideo");
+
+const music = document.getElementById("bgMusic");
+
+const gallery = document.getElementById("gallery");
+
+const viewer = document.getElementById("viewer");
+
+/* START */
+
+startBtn.addEventListener("click", () => {
+
+    startScreen.style.display = "none";
+
+    introVideo.style.display = "block";
+
+    introVideo.play();
+
+    music.play();
+
+});
+
+/* SHOW GALLERY */
+
+introVideo.onended = () => {
+
+    introVideo.style.display = "none";
+
+    gallery.style.display = "block";
+
+}
+
+/* VIDEO HOVER EFFECT */
+
+document.querySelectorAll("video.heart").forEach(video => {
+
+    video.addEventListener("mouseenter", () => {
+
+        video.style.transform = "scale(1.12)";
+
+    });
+
+    video.addEventListener("mouseleave", () => {
+
+        video.style.transform = "";
+
+    });
+
+});
+
+/* FULLSCREEN VIEW */
+
+document.querySelectorAll(".heart").forEach(item => {
+
+    item.addEventListener("click", () => {
+
+        viewer.style.display = "flex";
+
+        if(item.tagName === "IMG"){
+
+            viewer.innerHTML = `
+                <div id="closeBtn">✕</div>
+                <img src="${item.src}">
+            `;
+
+        }else{
+
+            viewer.innerHTML = `
+                <div id="closeBtn">✕</div>
+
+                <video 
+                src="${item.querySelector('source').src}" 
+                autoplay 
+                muted
+                controls 
+                loop
+                style="
+                max-width:90%;
+                max-height:90%;
+                border:5px solid white;
+                border-radius:20px;
+                ">
+                </video>
+            `;
+        }
+
+        document.getElementById("closeBtn").onclick = () => {
+
+            viewer.style.display = "none";
+
+        };
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
