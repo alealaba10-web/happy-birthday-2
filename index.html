@@ -10,275 +10,165 @@
 <style>
 
 /* RESET */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
     background:black;
+    font-family:Arial;
     overflow:hidden;
-    font-family:Arial, sans-serif;
+    color:white;
 }
 
-/* START SCREEN */
+/* FLOATING HEARTS */
+.hearts span{
+    position:absolute;
+    bottom:-50px;
+    font-size:clamp(14px,2vw,24px);
+    animation:float 12s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(0);opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translateY(-120vh);opacity:0;}
+}
 
+/* START */
 #startScreen{
-
-    width:100vw;
     height:100vh;
-
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
+    gap:20px;
+}
 
-    background:black;
+#message{
+    font-size:22px;
+    text-align:center;
+    white-space:pre-line;
+}
+
+#cake{
+    display:none;
+    font-size:70px;
+    animation:bounce 1s infinite alternate;
+}
+@keyframes bounce{
+    from{transform:translateY(0);}
+    to{transform:translateY(-15px);}
 }
 
 #startBtn{
-
-    padding:18px 45px;
-
-    font-size:22px;
-
+    display:none;
+    padding:12px 30px;
     border:none;
-    border-radius:12px;
-
+    border-radius:10px;
     background:white;
-    color:black;
-
-    cursor:pointer;
-
-    font-weight:bold;
-
-    transition:0.3s;
 }
 
-#startBtn:hover{
-
-    transform:scale(1.08);
-}
-
-/* INTRO VIDEO */
-
+/* VIDEO (NOW CONTAIN) */
 #introVideo{
-
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
     width:100vw;
     height:100vh;
-
     object-fit:contain;
-
-    display:none;
-
     background:black;
+    z-index:999;
+}
+
+/* LOVE LETTER */
+#letterPopup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.5s;
+    z-index:1000;
+}
+
+#letterPopup.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.letterBox{
+    background:white;
+    color:black;
+    padding:25px;
+    border-radius:15px;
+    width:85%;
+    max-width:400px;
+    text-align:center;
+    transform:scale(0.7);
+    transition:0.5s;
+}
+
+#letterPopup.show .letterBox{
+    transform:scale(1);
+}
+
+.letterBox button{
+    margin-top:15px;
+    padding:10px 20px;
 }
 
 /* GALLERY */
-
 #gallery{
-
     display:none;
-
+    position:relative;
     width:100vw;
     height:100vh;
-
-    position:relative;
-
-    background:black;
-
-    overflow:hidden;
 }
 
-/* HEART ITEMS */
-
-.heart{
-
+/* MEDIA */
+.item{
     position:absolute;
-
-    width:120px;
-    height:120px;
-
+    width:80px;
+    height:80px;
     object-fit:cover;
-
-    border:4px solid white;
-
-    border-radius:18px;
-
-    box-shadow:0 0 15px rgba(255,255,255,0.4);
-
-    opacity:0;
-
-    animation:fadeIn 1s forwards;
-
-    transition:0.4s;
-
+    border-radius:12px;
+    border:2px solid white;
     cursor:pointer;
 }
 
-/* HOVER */
-
-.heart:hover{
-
-    transform:scale(1.1);
-
-    z-index:999;
-
-    box-shadow:0 0 30px white;
-}
-
-/* ANIMATION */
-
-@keyframes fadeIn{
-
-    from{
-        opacity:0;
-        transform:scale(0.6);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
-}
-
-/* HEART OUTLINE */
-
-.item1{ top:70px; left:350px; }
-.item2{ top:130px; left:250px; }
-.item3{ top:250px; left:180px; }
-.item4{ top:390px; left:240px; }
-.item5{ top:530px; left:350px; }
-
-.item6{ top:650px; left:520px; }
-
-.item7{ top:530px; left:690px; }
-.item8{ top:390px; left:800px; }
-.item9{ top:250px; left:860px; }
-.item10{ top:130px; left:790px; }
-.item11{ top: 70px;px; left:680px; }
-
-.item12{ top:20px; left:520px; }
-
-/* SCATTERED VIDEOS */
-
-.video1{
-    top:80px;
-    left:40px;
-    transform:rotate(-10deg);
-}
-
-.video2{
-    top:600px;
-    left:40px;
-    transform:rotate(8deg);
-}
-
-.video3{
-    top:100px;
-    right:40px;
-    transform:rotate(-8deg);
-}
-
-.video4{
-    top:620px;
-    right:50px;
-    transform:rotate(10deg);
-}
-
-.video5{
-    top:760px;
-    left:100px;
-    transform:rotate(-6deg);
-}
-
-.video6{
-    top:760px;
-    right:100px;
-    transform:rotate(7deg);
-}
-
-/* FULLSCREEN */
-
+/* VIEWER (IMPROVED) */
 #viewer{
-
     position:fixed;
-
     top:0;
     left:0;
-
     width:100%;
     height:100%;
-
-    background:rgba(0,0,0,0.96);
-
+    background:rgba(0,0,0,0.95);
     display:none;
-
     justify-content:center;
     align-items:center;
-
-    z-index:9999;
+    flex-direction:column;
+    z-index:999;
 }
 
 #viewer img,
 #viewer video{
-
-    max-width:90%;
+    max-width:95%;
     max-height:90%;
-
-    border:5px solid white;
-
-    border-radius:20px;
 }
 
 #closeBtn{
-
     position:absolute;
-
     top:20px;
-    right:25px;
-
-    font-size:40px;
-
-    color:white;
-
+    right:20px;
+    font-size:30px;
     cursor:pointer;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-    .heart{
-
-        width:75px;
-        height:75px;
-    }
-
-    .item1{ top:70px; left:120px; }
-    .item2{ top:120px; left:60px; }
-    .item3{ top:210px; left:20px; }
-    .item4{ top:320px; left:70px; }
-    .item5{ top:430px; left:130px; }
-
-    .item6{ top:530px; left:180px; }
-
-    .item7{ top:430px; left:250px; }
-    .item8{ top:320px; left:320px; }
-    .item9{ top:210px; left:360px; }
-    .item10{ top:120px; left:310px; }
-    .item11{ top:70px; left:240px; }
-
-    .item12{ top:120px; left:180px; }
-
-    .video1{ top:40px; left:10px; }
-    .video2{ top:600px; left:10px; }
-    .video3{ top:40px; right:10px; }
-    .video4{ top:600px; right:10px; }
-    .video5{ top:700px; left:30px; }
-    .video6{ top:700px; right:30px; }
-
+    color:white;
 }
 
 </style>
@@ -286,190 +176,175 @@ body{
 
 <body>
 
-<!-- START SCREEN -->
+<div class="hearts" id="hearts"></div>
 
+<!-- START -->
 <div id="startScreen">
-
-<button id="startBtn">
-Start ❤️
-</button>
-
+    <div id="message"></div>
+    <div id="cake">🎂</div>
+    <button id="startBtn">Start ❤️</button>
 </div>
 
-<!-- INTRO VIDEO -->
-
-<video
-id="introVideo"
-muted
-playsinline
->
-
-<source src="intro.mp4" type="video/mp4">
-
+<!-- VIDEO -->
+<video id="introVideo" muted playsinline>
+<source src="./intro.mp4">
 </video>
 
 <!-- MUSIC -->
-
 <audio id="bgMusic" loop>
-
-<source src="music.mp3" type="audio/mp3">
-
+<source src="./music.mp3">
 </audio>
 
-<!-- GALLERY -->
-
-<div id="gallery">
-
-<!-- HEART SHAPE PICTURES -->
-
-<img src="pic1.jpg" class="heart item1">
-<img src="pic2.jpg" class="heart item2">
-<img src="pic3.jpg" class="heart item3">
-<img src="pic4.jpg" class="heart item4">
-<img src="pic5.jpg" class="heart item5">
-<img src="pic6.jpg" class="heart item6">
-<img src="pic7.jpg" class="heart item7">
-<img src="pic8.jpg" class="heart item8">
-<img src="pic9.jpg" class="heart item9">
-<img src="pic10.jpg" class="heart item10">
-<img src="pic11.jpg" class="heart item11">
-<img src="pic12.jpg" class="heart item12">
-
-<!-- SCATTERED VIDEOS -->
-
-<video class="heart video1" autoplay muted loop preload="auto">
-<source src="vid1.mp4" type="video/mp4">
-</video>
-
-<video class="heart video2" autoplay muted loop preload="auto">
-<source src="vid2.mp4" type="video/mp4">
-</video>
-
-<video class="heart video3" autoplay muted loop preload="auto">
-<source src="vid3.mp4" type="video/mp4">
-</video>
-
-<video class="heart video4" autoplay muted loop preload="auto">
-<source src="vid4.mp4" type="video/mp4">
-</video>
-
-<video class="heart video5" autoplay muted loop preload="auto">
-<source src="vid5.mp4" type="video/mp4">
-</video>
-
-<video class="heart video6" autoplay muted loop preload="auto">
-<source src="vid6.mp4" type="video/mp4">
-</video>
-
+<!-- LOVE LETTER -->
+<div id="letterPopup">
+    <div class="letterBox">
+        <h2>💖 My Love</h2>
+        <p>
+            Happy Birthday ❤️<br><br>
+            You are my happiness, my peace, my everything.<br>
+            I’m so lucky to have you 💖<br><br>
+            I love you forever 💫
+        </p>
+        <button onclick="enterGallery()">Continue ❤️</button>
+    </div>
 </div>
 
-<!-- FULLSCREEN VIEWER -->
+<!-- GALLERY -->
+<div id="gallery"></div>
 
-<div id="viewer"></div>
+<!-- VIEWER -->
+<div id="viewer">
+    <div id="closeBtn">✕</div>
+</div>
 
 <script>
 
-/* ELEMENTS */
-
-const startBtn = document.getElementById("startBtn");
-
-const startScreen = document.getElementById("startScreen");
-
-const introVideo = document.getElementById("introVideo");
-
-const music = document.getElementById("bgMusic");
-
-const gallery = document.getElementById("gallery");
-
-const viewer = document.getElementById("viewer");
-
-/* START */
-
-startBtn.addEventListener("click", () => {
-
-    startScreen.style.display = "none";
-
-    introVideo.style.display = "block";
-
-    introVideo.play();
-
-    music.play();
-
-});
-
-/* SHOW GALLERY */
-
-introVideo.onended = () => {
-
-    introVideo.style.display = "none";
-
-    gallery.style.display = "block";
-
+/* HEARTS */
+for(let i=0;i<30;i++){
+    let s=document.createElement("span");
+    s.innerHTML="❤️";
+    s.style.left=Math.random()*100+"%";
+    s.style.animationDuration=(6+Math.random()*6)+"s";
+    hearts.appendChild(s);
 }
 
-/* VIDEO HOVER EFFECT */
+/* MESSAGE */
+const text="Happy Birthday ❤️\nYou mean everything to me 💖";
+let i=0;
+function type(){
+    if(i<text.length){
+        message.innerHTML+=text[i++];
+        setTimeout(type,50);
+    }else{
+        cake.style.display="block";
+        startBtn.style.display="block";
+    }
+}
+type();
 
-document.querySelectorAll("video.heart").forEach(video => {
+/* START */
+startBtn.onclick=()=>{
+    startScreen.style.display="none";
+    introVideo.style.display="block";
+    introVideo.play();
+    bgMusic.play().catch(()=>{});
+};
 
-    video.addEventListener("mouseenter", () => {
+/* AFTER VIDEO */
+introVideo.onended=()=>{
+    introVideo.style.display="none";
+    document.getElementById("letterPopup").classList.add("show");
+};
 
-        video.style.transform = "scale(1.12)";
+/* ENTER GALLERY */
+function enterGallery(){
+    document.getElementById("letterPopup").classList.remove("show");
+    gallery.style.display="block";
+    createLayout();
+}
 
-    });
+/* CREATE LAYOUT */
+function createLayout(){
 
-    video.addEventListener("mouseleave", () => {
+    let items=[];
 
-        video.style.transform = "";
+    for(let i=1;i<=12;i++){
+        items.push({type:"img",src:`./pic${i}.jpg`});
+    }
+    for(let i=1;i<=11;i++){
+        items.push({type:"video",src:`./vid${i}.mp4`});
+    }
 
-    });
+    let heartCount=18;
 
-});
+    for(let t=0,i=0;t<Math.PI*2 && i<heartCount;t+=0.3,i++){
+        let x=16*Math.pow(Math.sin(t),3);
+        let y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
 
-/* FULLSCREEN VIEW */
+        let el=createItem(items[i]);
+        el.style.left=(50 + x*1.8)+"%";
+        el.style.top=(50 + y*1.8)+"%";
+        gallery.appendChild(el);
+    }
 
-document.querySelectorAll(".heart").forEach(item => {
+    for(let i=heartCount;i<items.length;i++){
+        let el=createItem(items[i]);
+        el.style.left=(Math.random()*90)+"%";
+        el.style.top=(Math.random()*90)+"%";
+        gallery.appendChild(el);
+    }
+}
 
-    item.addEventListener("click", () => {
+/* CREATE ITEM (FIXED VIEWER) */
+function createItem(data){
 
-        viewer.style.display = "flex";
+    let el;
 
-        if(item.tagName === "IMG"){
+    if(data.type==="img"){
+        el=document.createElement("img");
+        el.src=data.src;
+    }else{
+        el=document.createElement("video");
+        el.src=data.src;
+        el.autoplay=true;
+        el.loop=true;
+        el.muted=true;
+    }
 
-            viewer.innerHTML = `
-                <div id="closeBtn">✕</div>
-                <img src="${item.src}">
-            `;
+    el.className="item";
 
-        }else{
+    el.onclick=()=>openViewer(data);
 
-            viewer.innerHTML = `
-                <div id="closeBtn">✕</div>
+    return el;
+}
 
-                <video 
-                src="${item.querySelector('source').src}" 
-                autoplay 
-                muted
-                controls 
-                loop
-                style="
-                max-width:90%;
-                max-height:90%;
-                border:5px solid white;
-                border-radius:20px;
-                ">
-                </video>
-            `;
-        }
+/* VIEWER LOGIC */
+function openViewer(data){
+    viewer.style.display="flex";
 
-        document.getElementById("closeBtn").onclick = () => {
+    // clear old content (except close button)
+    viewer.querySelectorAll("img,video").forEach(el=>el.remove());
 
-            viewer.style.display = "none";
+    let media;
 
-        };
+    if(data.type==="img"){
+        media=document.createElement("img");
+        media.src=data.src;
+    }else{
+        media=document.createElement("video");
+        media.src=data.src;
+        media.controls=true;
+        media.autoplay=true;
+    }
 
-    });
+    viewer.appendChild(media);
+}
 
-});
+/* CLOSE VIEWER */
+closeBtn.onclick=()=>{
+    viewer.style.display="none";
+    viewer.querySelectorAll("video").forEach(v=>v.pause());
+};
 
 </script>
 
