@@ -212,7 +212,7 @@ body{
 <div class="hearts" id="hearts"></div>
 
 <!-- 🔊 BUTTON -->
-<button id="musicBtn">🔊 Play Music</button>
+<button id="musicBtn" ontouchstart="">🔊 Play Music</button>
 
 <!-- START -->
 <div id="startScreen">
@@ -226,7 +226,7 @@ body{
 <source src="intro.mp4">
 </video>
 
-<!-- 🎵 MUSIC (FIXED) -->
+<!-- 🎵 MUSIC -->
 <audio id="bgMusic" loop playsinline>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -278,37 +278,41 @@ function type(){
 }
 type();
 
-/* 🔊 HARD FIX AUDIO */
+/* 🔊 FINAL MOBILE AUDIO FIX */
 const musicBtn = document.getElementById("musicBtn");
+const bgMusic = document.getElementById("bgMusic");
 
-// force load
-bgMusic.load();
+let started = false;
 
 musicBtn.addEventListener("click", function(){
 
-    try{
+    if(started) return;
+    started = true;
+
+    bgMusic.muted = true;
+
+    bgMusic.play().then(()=>{
+
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+
         bgMusic.muted = false;
 
-        let playPromise = bgMusic.play();
+        return bgMusic.play();
 
-        if(playPromise !== undefined){
-            playPromise.then(()=>{
+    }).then(()=>{
 
-                musicBtn.innerHTML = "🔊 Playing";
-                musicBtn.style.opacity = "0.7";
+        musicBtn.innerHTML = "🔊 Playing";
 
-                setTimeout(()=>{
-                    musicBtn.style.display="none";
-                },2000);
+        setTimeout(()=>{
+            musicBtn.style.display="none";
+        },1500);
 
-            }).catch(()=>{
-                alert("Tap again ❤️");
-            });
-        }
-
-    }catch(e){
-        alert("Audio error ❤️");
-    }
+    }).catch(err=>{
+        console.log(err);
+        alert("Tap again ❤️");
+        started = false;
+    });
 
 });
 
