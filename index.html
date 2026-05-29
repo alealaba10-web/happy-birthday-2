@@ -223,12 +223,12 @@ body{
 
 <!-- VIDEO -->
 <video id="introVideo" muted playsinline>
-<source src="./intro.mp4">
+<source src="intro.mp4">
 </video>
 
-<!-- MUSIC -->
-<audio id="bgMusic" loop preload="auto">
-<source src="./music.mp3">
+<!-- 🎵 MUSIC (FIXED) -->
+<audio id="bgMusic" loop playsinline>
+    <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <!-- LETTER -->
@@ -278,33 +278,39 @@ function type(){
 }
 type();
 
-/* ⏱️ TRACK TIME */
-const pageStartTime = Date.now() / 1000;
-
-/* 🔊 MUSIC BUTTON WITH TIMELINE */
+/* 🔊 HARD FIX AUDIO */
 const musicBtn = document.getElementById("musicBtn");
 
-musicBtn.onclick = () => {
+// force load
+bgMusic.load();
 
-    let elapsed = (Date.now() / 1000) - pageStartTime;
+musicBtn.addEventListener("click", function(){
 
-    let duration = bgMusic.duration || 0;
+    try{
+        bgMusic.muted = false;
 
-    if(duration > 0){
-        bgMusic.currentTime = elapsed % duration;
+        let playPromise = bgMusic.play();
+
+        if(playPromise !== undefined){
+            playPromise.then(()=>{
+
+                musicBtn.innerHTML = "🔊 Playing";
+                musicBtn.style.opacity = "0.7";
+
+                setTimeout(()=>{
+                    musicBtn.style.display="none";
+                },2000);
+
+            }).catch(()=>{
+                alert("Tap again ❤️");
+            });
+        }
+
+    }catch(e){
+        alert("Audio error ❤️");
     }
 
-    bgMusic.muted = false;
-
-    bgMusic.play().then(()=>{
-        musicBtn.innerHTML = "🔊 Playing";
-        musicBtn.style.opacity = "0.7";
-
-        setTimeout(()=>musicBtn.style.display="none",2000);
-    }).catch(()=>{
-        alert("Tap again ❤️");
-    });
-};
+});
 
 /* START */
 startBtn.onclick=()=>{
@@ -332,19 +338,19 @@ function createLayout(){
     gallery.innerHTML="";
 
     let priorityItems = [
-        {type:"img", src:"./pic14.jpg"},
-        {type:"img", src:"./pic15.jpg"},
-        {type:"img", src:"./pic16.jpg"}
+        {type:"img", src:"pic14.jpg"},
+        {type:"img", src:"pic15.jpg"},
+        {type:"img", src:"pic16.jpg"}
     ];
 
     let otherItems = [];
 
     for(let i=1;i<=13;i++){
-        otherItems.push({type:"img",src:`./pic${i}.jpg`});
+        otherItems.push({type:"img",src:`pic${i}.jpg`});
     }
 
     for(let i=1;i<=11;i++){
-        otherItems.push({type:"video",src:`./vid${i}.mp4`});
+        otherItems.push({type:"video",src:`vid${i}.mp4`});
     }
 
     otherItems.sort(()=>Math.random()-0.5);
