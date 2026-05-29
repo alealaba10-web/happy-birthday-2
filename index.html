@@ -53,6 +53,7 @@ body{
     font-size:70px;
     animation:bounce 1s infinite alternate;
 }
+
 @keyframes bounce{
     from{transform:translateY(0);}
     to{transform:translateY(-15px);}
@@ -64,6 +65,17 @@ body{
     border:none;
     border-radius:10px;
     background:white;
+    cursor:pointer;
+}
+
+/* AUDIO CONTROLS */
+#bgMusic{
+    position:fixed;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2000;
+    width:300px;
 }
 
 /* VIDEO */
@@ -122,16 +134,14 @@ body{
     padding:10px 20px;
 }
 
-/* 💖 MASONRY */
+/* GALLERY */
 #gallery{
     display:none;
     width:100vw;
     height:100vh;
     padding:10px;
-
     column-count:3;
     column-gap:10px;
-
     overflow-y:auto;
 }
 
@@ -152,6 +162,7 @@ body{
 @media(max-width:768px){
     #gallery{column-count:2;}
 }
+
 @media(max-width:480px){
     #gallery{column-count:1;}
 }
@@ -201,13 +212,13 @@ body{
 </div>
 
 <!-- VIDEO -->
-<video id="introVideo" muted playsinline>
-<source src="./intro.mp4">
+<video id="introVideo" playsinline>
+    <source src="./intro.mp4">
 </video>
 
 <!-- MUSIC -->
-<audio id="bgMusic" loop>
-<source src="./music.mp3">
+<audio id="bgMusic" controls muted loop>
+    <source src="./music.mp3" type="audio/mpeg">
 </audio>
 
 <!-- LOVE LETTER -->
@@ -246,6 +257,7 @@ for(let i=0;i<30;i++){
 /* MESSAGE */
 const text="Happy Birthday ❤️\nYou mean everything to me 💖";
 let i=0;
+
 function type(){
     if(i<text.length){
         message.innerHTML+=text[i++];
@@ -257,37 +269,31 @@ function type(){
 }
 type();
 
-/* AUDIO UNLOCK */
-document.body.addEventListener("click", ()=>{
-    bgMusic.play().catch(()=>{});
-}, { once:true });
-
 /* START */
-startBtn.onclick=()=>{
+startBtn.onclick = () => {
 
-    bgMusic.muted = false;
-    bgMusic.currentTime = 0;
-    bgMusic.play().catch(()=>{});
-
-    startScreen.style.display="none";
-    introVideo.style.display="block";
+    startScreen.style.display = "none";
+    introVideo.style.display = "block";
     introVideo.play();
 };
 
 /* AFTER VIDEO */
 introVideo.onended=()=>{
     introVideo.style.display="none";
-    document.getElementById("letterPopup").classList.add("show");
+    document.getElementById("letterPopup")
+    .classList.add("show");
 };
 
 /* ENTER GALLERY */
 function enterGallery(){
-    document.getElementById("letterPopup").classList.remove("show");
+    document.getElementById("letterPopup")
+    .classList.remove("show");
+
     gallery.style.display="block";
     createLayout();
 }
 
-/* 💖 CREATE MASONRY WITH PRIORITY */
+/* CREATE GALLERY */
 function createLayout(){
 
     gallery.innerHTML="";
@@ -301,20 +307,28 @@ function createLayout(){
     let otherItems = [];
 
     for(let i=1;i<=13;i++){
-        otherItems.push({type:"img",src:`./pic${i}.jpg`});
+        otherItems.push({
+            type:"img",
+            src:`./pic${i}.jpg`
+        });
     }
 
     for(let i=1;i<=11;i++){
-        otherItems.push({type:"video",src:`./vid${i}.mp4`});
+        otherItems.push({
+            type:"video",
+            src:`./vid${i}.mp4`
+        });
     }
 
     otherItems.sort(()=>Math.random()-0.5);
 
-    let items = [...priorityItems, ...otherItems];
+    let items=[
+        ...priorityItems,
+        ...otherItems
+    ];
 
     items.forEach(data=>{
-        let el=createItem(data);
-        gallery.appendChild(el);
+        gallery.appendChild(createItem(data));
     });
 }
 
@@ -336,9 +350,12 @@ function createItem(data){
 
     el.className="item";
 
-    // 💖 highlight top 3
-    if(data.src.includes("pic14") || data.src.includes("pic15") || data.src.includes("pic16")){
-        el.style.border = "3px solid gold";
+    if(
+        data.src.includes("pic14") ||
+        data.src.includes("pic15") ||
+        data.src.includes("pic16")
+    ){
+        el.style.border="3px solid gold";
     }
 
     el.onclick=()=>openViewer(data);
@@ -348,9 +365,11 @@ function createItem(data){
 
 /* VIEWER */
 function openViewer(data){
+
     viewer.style.display="flex";
 
-    viewer.querySelectorAll("img,video").forEach(el=>el.remove());
+    viewer.querySelectorAll("img,video")
+    .forEach(el=>el.remove());
 
     let media;
 
@@ -370,7 +389,8 @@ function openViewer(data){
 /* CLOSE */
 closeBtn.onclick=()=>{
     viewer.style.display="none";
-    viewer.querySelectorAll("video").forEach(v=>v.pause());
+    viewer.querySelectorAll("video")
+    .forEach(v=>v.pause());
 };
 
 </script>
