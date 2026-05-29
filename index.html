@@ -19,7 +19,7 @@ body{
     color:white;
 }
 
-/* FLOATING HEARTS */
+/* HEARTS */
 .hearts span{
     position:absolute;
     bottom:-50px;
@@ -79,7 +79,7 @@ body{
     z-index:999;
 }
 
-/* LOVE LETTER */
+/* LETTER */
 #letterPopup{
     position:fixed;
     top:0;
@@ -122,7 +122,7 @@ body{
     padding:10px 20px;
 }
 
-/* 💖 MASONRY */
+/* GALLERY */
 #gallery{
     display:none;
     width:100vw;
@@ -186,12 +186,33 @@ body{
     color:white;
 }
 
+/* 🔊 MUSIC BUTTON */
+#musicBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:2000;
+
+    padding:12px 18px;
+    border:none;
+    border-radius:30px;
+
+    background:white;
+    color:black;
+    font-weight:bold;
+
+    box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="hearts" id="hearts"></div>
+
+<!-- 🔊 BUTTON -->
+<button id="musicBtn">🔊 Play Music</button>
 
 <!-- START -->
 <div id="startScreen">
@@ -206,11 +227,11 @@ body{
 </video>
 
 <!-- MUSIC -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
 <source src="./music.mp3">
 </audio>
 
-<!-- LOVE LETTER -->
+<!-- LETTER -->
 <div id="letterPopup">
     <div class="letterBox">
         <h2>💖 My Love</h2>
@@ -243,7 +264,7 @@ for(let i=0;i<30;i++){
     hearts.appendChild(s);
 }
 
-/* MESSAGE */
+/* TEXT */
 const text="Happy Birthday ❤️\nYou mean everything to me 💖";
 let i=0;
 function type(){
@@ -257,37 +278,55 @@ function type(){
 }
 type();
 
-/* AUDIO UNLOCK */
-document.body.addEventListener("click", ()=>{
-    bgMusic.play().catch(()=>{});
-}, { once:true });
+/* ⏱️ TRACK TIME */
+const pageStartTime = Date.now() / 1000;
+
+/* 🔊 MUSIC BUTTON WITH TIMELINE */
+const musicBtn = document.getElementById("musicBtn");
+
+musicBtn.onclick = () => {
+
+    let elapsed = (Date.now() / 1000) - pageStartTime;
+
+    let duration = bgMusic.duration || 0;
+
+    if(duration > 0){
+        bgMusic.currentTime = elapsed % duration;
+    }
+
+    bgMusic.muted = false;
+
+    bgMusic.play().then(()=>{
+        musicBtn.innerHTML = "🔊 Playing";
+        musicBtn.style.opacity = "0.7";
+
+        setTimeout(()=>musicBtn.style.display="none",2000);
+    }).catch(()=>{
+        alert("Tap again ❤️");
+    });
+};
 
 /* START */
 startBtn.onclick=()=>{
-
-    bgMusic.muted = false;
-    bgMusic.currentTime = 0;
-    bgMusic.play().catch(()=>{});
-
     startScreen.style.display="none";
     introVideo.style.display="block";
     introVideo.play();
 };
 
-/* AFTER VIDEO */
+/* VIDEO END */
 introVideo.onended=()=>{
     introVideo.style.display="none";
-    document.getElementById("letterPopup").classList.add("show");
+    letterPopup.classList.add("show");
 };
 
-/* ENTER GALLERY */
+/* ENTER */
 function enterGallery(){
-    document.getElementById("letterPopup").classList.remove("show");
+    letterPopup.classList.remove("show");
     gallery.style.display="block";
     createLayout();
 }
 
-/* 💖 CREATE MASONRY WITH PRIORITY */
+/* MASONRY */
 function createLayout(){
 
     gallery.innerHTML="";
@@ -318,7 +357,6 @@ function createLayout(){
     });
 }
 
-/* CREATE ITEM */
 function createItem(data){
 
     let el;
@@ -336,9 +374,8 @@ function createItem(data){
 
     el.className="item";
 
-    // 💖 highlight top 3
     if(data.src.includes("pic14") || data.src.includes("pic15") || data.src.includes("pic16")){
-        el.style.border = "3px solid gold";
+        el.style.border="3px solid gold";
     }
 
     el.onclick=()=>openViewer(data);
